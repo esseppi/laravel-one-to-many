@@ -15,12 +15,10 @@ class CreateCoinsTable extends Migration
     {
         Schema::create('coins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
+            $table->string('ticker');
             $table->string('thumb');
-            $table->string('slug', 100)->unique();
-            $table->float('price');
-            $table->float('amount');
+            $table->string('slug');
+            $table->timestamps();
         });
     }
 

@@ -36,4 +36,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // MIE FUNZIONI
+
+    public function tradeUser()
+    {
+        return $this->hasMany('App\Trade', 'user_id');
+    }
 }

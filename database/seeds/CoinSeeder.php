@@ -1,9 +1,9 @@
 <?php
 
+use App\Coin;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 
-use App\Coin;
 
 class CoinSeeder extends Seeder
 {
@@ -14,15 +14,14 @@ class CoinSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 100; $i++) {
-            $name = $faker->lastName();
+
+        for ($i = 0; $i < 10; $i++) {
+            $coins = ['BTC', 'ETH', 'DOT'];
+            $numb = rand(0, 2);
             Coin::create([
-                'name'          => $name,
-                'thumb'         => $faker->imageUrl(640, 480, 'animals', true),
-                'description'   => $faker->sentence(rand(0, 10)),
-                'price'         => $faker->numberBetween(0, 10000),
-                'amount'        => $faker->numberBetween(0, 1000),
-                'slug'          => Coin::generateSlug($name)
+                "ticker"  => $coins[$numb],
+                "thumb"   => $faker->imageUrl(360, 360, 'animals', true, 'cats'),
+                "slug"    => Coin::generateSlug($coins[$numb]),
             ]);
         }
     }

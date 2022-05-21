@@ -2,18 +2,21 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 
-use Illuminate\Database\Eloquent\Model;
-
-class Coin extends Model
+class Trade extends Model
 {
     public $timestamps = null;
     protected $fillable = [
-        "ticker",
-        "thumb",
+        "coin_id",
+        "user_id",
         "slug",
+        "price",
+        "amount",
+        "tradeDir",
+        "comments",
     ];
 
     // GENERATORE SLUGGER
@@ -28,8 +31,14 @@ class Coin extends Model
         }
         return $slug;
     }
-    public function tradeCoin()
+
+    // MIE FUNZIONI
+    public function coin()
     {
-        return $this->hasMany('App\Trade', 'coin_id');
+        return $this->belongsTo('App\Coin', 'coin_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'trade_id');
     }
 }

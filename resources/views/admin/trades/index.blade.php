@@ -4,23 +4,28 @@
     <main class="my-3">
         <div class="container">
             <div class="row row-cols-5">
-                @foreach ($coins as $coin)
+                @foreach ($trades as $trade)
                     <div class="card-group">
                         <div class="card my-3">
-                            <img src="{{ $coin['thumb'] }}" class="card-img-top" alt="{{ $coin['name'] }}">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $coin->ticker }}</h5>
-                                <p class="card-text">{{ $coin->slug }}</p>
+                                <h5 class="card-title">{{ $trade['slug'] }}</h5>
+                                <p class="card-text">{{ $trade->user_id }}</p>
+                                <p class="card-text">{{ $trade->tradeDirection }}</p>
                             </div>
                             <div class="d-flex justify-content-around mb-2">
-                                <a href="{{ route('admin.coins.show', $coin->id) }}" class="btn btn-primary">Info</a>
-                                <a href="{{ route('admin.coins.edit', $coin->id) }}" class="btn btn-secondary">Edit</a>
+                                <a href="{{ route('admin.trades.show', $trade->id) }}" class="btn btn-primary">Info</a>
+
+                                @if (Auth::user()->id === $trade->user_id)
+                                <a href="{{ route('admin.trades.edit', $trade->id) }}" class="btn btn-secondary">Edit</a>
+                                @endif
                                 {{-- trigger delete button --}}
+                                @if (Auth::user()->id === $trade->user_id)
                                 <button type="button" class="btn btn-danger deleteButton" data-bs-toggle="modal"
-                                    data-id="{{ $coin->id }}" data-base="{{ route('admin.coins.index') }}"
+                                    data-id="{{ $trade->id }}" data-base="{{ route('admin.trades.index') }}"
                                     data-bs-target="#staticBackdrop">
                                     Delete
                                 </button>
+                                @endif
 
                             </div>
                         </div>
@@ -43,7 +48,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <form method="POST" data-base="{{ route('admin.coins.index') }}" id="deleteForm">
+                            <form method="POST" data-base="{{ route('admin.trades.index') }}" id="deleteForm">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -53,7 +58,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                {{ $coins->links() }}
+                {{ $trades->links() }}
             </div>
         </div>
     </main>

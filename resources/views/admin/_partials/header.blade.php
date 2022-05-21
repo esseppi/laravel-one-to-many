@@ -7,8 +7,11 @@
                 </svg>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="{{ route('admin.coins.index') }}" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="{{ route('admin.coins.create') }}" class="nav-link px-2 text-white">Create</a></li>
+                <li><a href="{{ route('admin.coins.index') }}" class="nav-link px-2 text-secondary">All Coins</a></li>
+                <li><a href="{{ route('admin.trades.index') }}" class="nav-link px-2 text-white">All Trades</a></li>
+                <li><a href="{{ route('admin.coins.create') }}" class="nav-link px-2 text-white">New Coin</a></li>
+                <li><a href="{{ route('admin.trades.create') }}" class="nav-link px-2 text-white">New Trade</a></li>
+
                 {{-- <li><a href="{{ route('admin.coins.edit') }}" class="nav-link px-2 text-white">Edit</a></li> --}}
             </ul>
             <form action="{{ url('/admin/search') }}" type="get" class="d-flex">
@@ -36,7 +39,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                                                            document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 

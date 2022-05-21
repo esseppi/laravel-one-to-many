@@ -27,8 +27,11 @@ Route::middleware('auth')
     ->name('admin.')
     ->prefix('admin')
     ->group(function () {
-        Route::get('/', 'HomeController@index')->name('home');
-        Route::post('/slugger', 'CoinController@slugger')->name('slugger');
-        Route::get('/search', 'CoinController@search')->name('home');
+        Route::get('/', 'HomeController@index');
+        Route::post('/slugger/trade', 'TradeController@slugger');
+        Route::post('/slugger/coin', 'CoinController@slugger');
+        Route::get('/trade/search', 'TradeController@search');
+        Route::get('/coin/search', 'CoinController@search');
+        Route::resource('/trades', 'TradeController');
         Route::resource('/coins', 'CoinController');
     });

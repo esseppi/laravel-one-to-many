@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 class CreateCoinsTable extends Migration
 {
     /**
@@ -15,9 +16,9 @@ class CreateCoinsTable extends Migration
     {
         Schema::create('coins', function (Blueprint $table) {
             $table->id();
-            $table->string('ticker');
-            $table->string('thumb');
-            $table->string('slug');
+            $table->string('name');
+            $table->string('price_usd');
+            $table->string('image');
             $table->timestamps();
         });
     }

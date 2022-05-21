@@ -5,6 +5,7 @@
  */
 
 const { default: Axios } = require("axios");
+const { includes } = require("lodash");
 require("./bootstrap");
 
 window.Vue = require("vue");
@@ -58,4 +59,6 @@ if (btnSlugger) {
             eleSlug.value = response.data.slug;
         });
     });
+
+    function getUrlCoin($coin) {}
 }

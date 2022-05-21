@@ -3,6 +3,8 @@
 use App\Coin;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Http;
+
 
 
 class CoinSeeder extends Seeder
@@ -12,17 +14,49 @@ class CoinSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
-    {
 
-        for ($i = 0; $i < 10; $i++) {
-            $coins = ['BTC', 'ETH', 'DOT'];
-            $numb = rand(0, 2);
+    public function run()
+    {
+        // CREAZIONE COIN SINGOLA
+        // $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/bitcoin')->json();
+        // Coin::create([
+        //     "price_usd"   => $Coinlist['market_data']['current_price']['usd'],
+        //     "name"        => $Coinlist['name'],
+        //     "image"       => $Coinlist['image']['thumb'],
+        // ]);
+
+        // CREAZIONE MULTIPLA COIN
+        // $Coinlist = Http::get('https://api.coingecko.com/api/v3/simple/supported_vs_currencies')->json();
+        // for ($i = 0; $i < 10; $i++) {
+        //     Coin::create([
+        //         "price_usd"   => $Coinlist['market_data']['current_price']['usd'],
+        //         "name"        => $Coinlist['name'],
+        //         "image"       => $Coinlist['image']['thumb'],
+        //     ]);
+        // };
+
+        $link = 'https://api.coingecko.com/api/v3/coins/';
+        $total = Http::get($link)->json();
+
+        for ($i = 0; $i < count($total); $i++) {
+            $coin = $total[$i];
             Coin::create([
-                "ticker"  => $coins[$numb],
-                "thumb"   => $faker->imageUrl(360, 360, 'animals', true, 'cats'),
-                "slug"    => Coin::generateSlug($coins[$numb]),
+                "price_usd"   => $coin['market_data']['current_price']['usd'],
+                "name"        => $coin['name'],
+                "image"       => $coin['image']['large'],
             ]);
-        }
+        };
+
+
+        // $initialCoins = ['bitcoin', 'ethereum', 'polkadot',];
+        // for ($i = 0; $i < count($initialCoins); $i++) {
+        //     $word = $initialCoins[$i];
+        //     $Coinlist = Http::get($link . $word)->json();
+        //     Coin::create([
+        //         "price_usd"   => $Coinlist['market_data']['current_price']['usd'],
+        //         "name"        => $Coinlist['name'],
+        //         "image"       => $Coinlist['image']['large'],
+        //     ]);
+        // }
     }
 }

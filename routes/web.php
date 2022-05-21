@@ -30,8 +30,9 @@ Route::middleware('auth')
         Route::get('/', 'HomeController@index');
         Route::post('/slugger/trade', 'TradeController@slugger');
         Route::post('/slugger/coin', 'CoinController@slugger');
-        Route::get('/trade/search', 'TradeController@search');
-        Route::get('/coin/search', 'CoinController@search');
+        Route::get('/trades/search', 'TradeController@search');
+        Route::get('/price', 'CoinController@getCoins');
+
         Route::resource('/trades', 'TradeController');
         Route::resource('/coins', 'CoinController');
     });

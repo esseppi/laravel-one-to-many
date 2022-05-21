@@ -25,9 +25,10 @@ class CreateTradesTable extends Migration
             $table->string('slug', 100)->unique();
             $table->text('comments');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
-            $table->foreign('coin_id')->references('id')->on('coins')
-            ->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users');
+            // ->onDelete('SET NULL');
+            $table->foreign('coin_id')->references('id')->on('coins');
+            // ->onDelete('SET NULL');
         });
         Schema::enableForeignKeyConstraints();
     }

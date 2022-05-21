@@ -7,10 +7,10 @@
                 @foreach ($coins as $coin)
                     <div class="card-group">
                         <div class="card my-3">
-                            <img src="{{ $coin['thumb'] }}" class="card-img-top" alt="{{ $coin['name'] }}">
+                            <img src="{{ $coin['image'] }}" class="card-img-top" alt="{{ $coin['name'] }}">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $coin->ticker }}</h5>
-                                <p class="card-text">{{ $coin->slug }}</p>
+                                <h5 class="card-title">{{ $coin->name }}</h5>
+                                <p class="card-text">{{ $coin->price_usd }}</p>
                             </div>
                             <div class="d-flex justify-content-around mb-2">
                                 <a href="{{ route('admin.coins.show', $coin->id) }}" class="btn btn-primary">Info</a>

@@ -3,17 +3,19 @@
 namespace App;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+
 
 
 use Illuminate\Database\Eloquent\Model;
 
 class Coin extends Model
 {
-    public $timestamps = null;
     protected $fillable = [
-        "ticker",
-        "thumb",
-        "slug",
+        "name",
+        "price_usd",
+        "image",
     ];
 
     // GENERATORE SLUGGER
@@ -27,6 +29,12 @@ class Coin extends Model
             $_i++;
         }
         return $slug;
+    }
+    public function getCoins(Request $request)
+    {
+        $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/bitcoin')->json();
+
+        return $Coinlist;
     }
     public function tradeCoin()
     {

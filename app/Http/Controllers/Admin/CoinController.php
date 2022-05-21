@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+
 use App\Coin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CoinController extends Controller
 {
@@ -111,10 +113,18 @@ class CoinController extends Controller
     }
 
     // GENERATORE SLUGGER
-    public function slugger(Request $request)
+    // public function slugger(Request $request)
+    // {
+    //     return response()->json([
+    //         'slug' => Coin::generateSlug($request->all()['generatorString'])
+    //     ]);
+    // }
+    public function getCoins(Request $request)
     {
-        return response()->json([
-            'slug' => Coin::generateSlug($request->all()['generatorString'])
-        ]);
+        $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/')->json();
+
+        // dd($Coinlist);
+
+        return view('admin.coins.price', ['coins' => $Coinlist]);
     }
 }

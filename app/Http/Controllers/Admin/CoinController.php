@@ -85,11 +85,21 @@ class CoinController extends Controller
      */
     public function update(Request $request, Coin $coin)
     {
-        $formData = $request->all();
+        // $formData = Http::get('https://api.coingecko.com/api/v3/coins/')->json();;
 
-        $coin->update($formData);
+        // $coin->update($formData);
 
-        return redirect()->route('admin.coins.show', $coin->id);
+        // return redirect()->route('admin.coins.show', $coin->id);
+
+        $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/')->json();
+        foreach ($Coinlist as $coin) {
+            $price = $coin['market_data']['current_price']['usd'];
+        }
+
+
+        // dd($Coinlist);
+
+        return view('admin.coins.price', ['coins' => $Coinlist]);
     }
 
     /**
@@ -119,11 +129,9 @@ class CoinController extends Controller
     //         'slug' => Coin::generateSlug($request->all()['generatorString'])
     //     ]);
     // }
-    public function getCoins(Request $request)
+    public function getCoins(Coin $oldCoin)
     {
         $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/')->json();
-
-        // dd($Coinlist);
 
         return view('admin.coins.price', ['coins' => $Coinlist]);
     }

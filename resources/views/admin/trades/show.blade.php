@@ -10,12 +10,17 @@
                         <div class="col-8 m-auto">
                             <div class="m-auto d-flex flex-column justify-center">
                                 <div class="m-auto">
-                                    <img src="{{ $trade->coin->thumb }}" class="rounded img-fluid"
+                                    <img src="{{ $trade->baseCoin->image }}" class="rounded img-fluid"
                                         alt="{{ $trade->title }}">
                                 </div>
                                 <div>
-                                    <h2>{{ $trade->tradeDir }}</h2>
-                                    <h2>{{ $trade->coin->ticker }}</h2>
+                                    @if ($trade->tradeDir)
+                                        <h2>Acquisto</h2>
+                                    @else
+                                        <h2>Venduto</h2>
+                                    @endif
+                                    <h2>{{ $trade->baseCoin->price_usd }}</h2>
+                                    <h2>{{ $trade->baseCoin->name }}</h2>
                                 </div>
                             </div>
                         </div>

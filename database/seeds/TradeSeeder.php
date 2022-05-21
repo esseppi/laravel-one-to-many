@@ -23,13 +23,14 @@ class TradeSeeder extends Seeder
 
             $tradeSlug = $coinTicker . '-' . $userName;
             Trade::create([
-                'user_id'       => User::inRandomOrder()->first()->id,
-                'coin_id'       => Coin::inRandomOrder()->first()->id,
-                'price'         => $faker->numberBetween(0, 10000),
-                'amount'        => $faker->numberBetween(0, 1000),
-                'tradeDir'      => $faker->boolean(),
-                'slug'          => Trade::generateSlug($tradeSlug),
-                'comments'      => $faker->sentence(rand(0, 10)),
+                'user_id'        => User::inRandomOrder()->first()->id,
+                'baseCoin_id'    => Coin::inRandomOrder()->first()->id,
+                'foreignCoin_id' => Coin::inRandomOrder()->first()->id,
+                'price'          => $faker->numberBetween(0, 10000),
+                'amount'         => $faker->numberBetween(0, 1000),
+                'tradeDir'       => $faker->boolean(),
+                'slug'           => Trade::generateSlug($tradeSlug),
+                'comments'       => $faker->sentence(rand(0, 10)),
             ]);
         }
     }

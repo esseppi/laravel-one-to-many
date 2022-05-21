@@ -48,6 +48,7 @@ class CoinSeeder extends Seeder
         };
 
 
+        // SELEZIONA LE COINS INIZIAL SPECIFICANDO IL NOME NELL'ARRAY initialCoins
         // $initialCoins = ['bitcoin', 'ethereum', 'polkadot',];
         // for ($i = 0; $i < count($initialCoins); $i++) {
         //     $word = $initialCoins[$i];

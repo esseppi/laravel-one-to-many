@@ -30,9 +30,9 @@
                     @enderror
                 </div>
                 <div class="col-sm-6">
-                    <label for="lastName" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Description" name="description"
-                        value="{{ old('description', $coin->description) }}">
+                    <label for="lastName" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Price" name="description"
+                        value="{{ old('price', $coin->price) }}">
                     <div class="invalid-feedback">
                         Valid description is required.
                     </div>

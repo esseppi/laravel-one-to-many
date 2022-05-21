@@ -59,6 +59,4 @@ if (btnSlugger) {
             eleSlug.value = response.data.slug;
         });
     });
-
-    function getUrlCoin($coin) {}
 }

@@ -10,7 +10,8 @@ class Trade extends Model
 {
     public $timestamps = null;
     protected $fillable = [
-        "coin_id",
+        "baseCoin_id",
+        "foreignCoin_id",
         "user_id",
         "slug",
         "price",
@@ -33,12 +34,21 @@ class Trade extends Model
     }
 
     // MIE FUNZIONI
-    public function coin()
+    public function baseCoin()
     {
-        return $this->belongsTo('App\Coin', 'coin_id');
+        return $this->belongsTo(Coin::class, 'baseCoin_id');
     }
+
+    public function foreignCoin()
+    {
+        return $this->belongsTo(Coin::class, 'foreignCoin_id');
+    }
+    // public function coin()
+    // {
+    //     return $this->belongsTo('App\Coin', 'coin_id');
+    // }
     public function user()
     {
-        return $this->belongsTo('App\User', 'trade_id');
+        return $this->belongsTo('App\User', 'user_id');
     }
 }

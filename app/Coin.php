@@ -13,9 +13,11 @@ use Illuminate\Database\Eloquent\Model;
 class Coin extends Model
 {
     protected $fillable = [
+        "id",
         "name",
         "price_usd",
         "image",
+        "slug",
     ];
 
     // GENERATORE SLUGGER
@@ -32,9 +34,15 @@ class Coin extends Model
     }
     public function getCoins(Request $request)
     {
-        $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/bitcoin')->json();
+        $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins')->json();
+        // foreach ($Coinlist as $coin) {
+        //     dd($coin);
+        // }
 
-        return $Coinlist;
+
+        // dd($Coinlist);
+
+        return view('admin.coins.price', ['coins' => $Coinlist]);
     }
     public function tradeCoin()
     {

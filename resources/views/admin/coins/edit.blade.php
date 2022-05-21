@@ -30,9 +30,9 @@
                     @enderror
                 </div>
                 <div class="col-sm-6">
-                    <label for="lastName" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Description" name="description"
-                        value="{{ old('description', $coin->description) }}">
+                    <label for="price_usd" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price_usd" placeholder="Price" name="price_usd"
+                        value="{{ old('price_usd', $coin->price_usd) }}">
                     <div class="invalid-feedback">
                         Valid description is required.
                     </div>
@@ -40,8 +40,8 @@
 
                 <div class="col-12">
                     <label for="email" class="form-label">Image <span class="text-muted">(Optional)</span></label>
-                    <input type="url" class="form-control" id="thumb" placeholder="Thumb" name="thumb"
-                        value="{{ old('thumb', $coin->thumb) }}">
+                    <input type="url" class="form-control" id="image" placeholder="Thumb" name="image"
+                        value="{{ old('image', $coin->image) }}">
                     <div class="invalid-feedback">
                         Please enter a valid url image.
                     </div>

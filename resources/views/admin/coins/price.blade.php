@@ -7,7 +7,6 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="container">
-                            {{-- @dd($trade) --}}
                             <div class="row g-4 m-auto">
                                 <div class="col-8 m-auto">
                                     <div class="m-auto d-flex flex-column justify-center">

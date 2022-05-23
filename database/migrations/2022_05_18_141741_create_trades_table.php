@@ -16,21 +16,22 @@ class CreateTradesTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('trades', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('baseCoin_id');
             $table->unsignedBigInteger('foreignCoin_id');
-            $table->unsignedBigInteger('user_id');
-
-            $table->float('price');
-            $table->float('amount');
-            $table->boolean('tradeDir');
             $table->string('slug', 100)->unique();
+
+            $table->float('basePrice');
+            $table->float('foreignPrice');
+            $table->float('baseAmount');
+            $table->float('foreignAmount');
+            $table->date('date');
+            $table->boolean('tradeDir');
             $table->text('comments');
 
             $table->foreign('user_id')->references('id')->on('users');
-            // ->onDelete('SET NULL');
             $table->foreign('baseCoin_id')->references('id')->on('coins');
             $table->foreign('foreignCoin_id')->references('id')->on('coins');
-            // ->onDelete('SET NULL');
         });
         Schema::enableForeignKeyConstraints();
     }

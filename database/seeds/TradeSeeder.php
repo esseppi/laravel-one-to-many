@@ -14,20 +14,34 @@ class TradeSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run(Faker $faker, Coin $coin)
     {
-        for ($i = 0; $i < 100; $i++) {
-            $coinTicker = Coin::inRandomOrder()->first()->ticker;
-            $userName = User::inRandomOrder()->first()->name;
+        for ($i = 0; $i < 60; $i++) {
 
+            $coinTicker = Coin::inRandomOrder()->first()->slug;
+            $userName = User::inRandomOrder()->first()->slug;
+            $coin1 = Coin::inRandomOrder()->first()->id;
+            $coin2 = Coin::inRandomOrder()->first()->id;
+            if ($coin1 == $coin2) {
+                $coin2 = Coin::inRandomOrder()->first()->id;
+            }
+            if ($coin2 == $coin1) {
+                $coin2 = Coin::inRandomOrder()->first()->id;
+            }
+            if ($coin2 == $coin1) {
+                $coin2 = Coin::inRandomOrder()->first()->id;
+            }
 
-            $tradeSlug = $coinTicker . '-' . $userName;
+            $tradeSlug = $coinTicker . $userName;
             Trade::create([
                 'user_id'        => User::inRandomOrder()->first()->id,
-                'baseCoin_id'    => Coin::inRandomOrder()->first()->id,
-                'foreignCoin_id' => Coin::inRandomOrder()->first()->id,
-                'price'          => $faker->numberBetween(0, 10000),
-                'amount'         => $faker->numberBetween(0, 1000),
+                'baseCoin_id'    => $coin1,
+                'foreignCoin_id' => $coin2,
+                'date'           => $faker->dateTimeInInterval('-2 year', '+3 days'),
+                'basePrice'      => $faker->numberBetween(0, 10000),
+                'foreignPrice'   => $faker->numberBetween(0, 10000),
+                'baseAmount'     => $faker->numberBetween(0, 1000),
+                'foreignAmount'  => $faker->numberBetween(0, 1000),
                 'tradeDir'       => $faker->boolean(),
                 'slug'           => Trade::generateSlug($tradeSlug),
                 'comments'       => $faker->sentence(rand(0, 10)),

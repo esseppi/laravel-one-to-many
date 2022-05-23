@@ -17,11 +17,18 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <h5 class="card-title">{{ $trade->date }}</h5>
                                 <h5 class="card-title">{{ $trade->baseCoin->name }}</h5>
-                                <p class="card-text">{{ $trade->user->name }}</p>
-                                <h5 class="card-title">Price:{{ $trade->baseCoin->price_usd }}</h5>
-                                <h5 class="card-title">Amount:{{ $trade->amount }}</h5>
-                                <p class="card-text">{{ $trade->tradeDirection }}</p>
+                                <h5 class="card-title">{{ $trade->basePrice }}</h5>
+                                <h5 class="card-title">{{ $trade->baseAmount }}</h5>
+                                <h5 class="card-title">{{ $trade->foreignCoin->name }}</h5>
+                                <h5 class="card-title">{{ $trade->foreignPrice }}</h5>
+                                <h5 class="card-title">{{ $trade->foreignAmount }}</h5>
+                                @if ($trade->tradeDir)
+                                    <p class="card-text">Acquistato</p>
+                                @else
+                                    <p class="card-text">Venduto</p>
+                                @endif
                             </div>
                             <div class="d-flex justify-content-around mb-2">
                                 <a href="{{ route('admin.trades.show', $trade->id) }}" class="btn btn-primary">Info</a>

@@ -28,11 +28,11 @@ Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
         Route::get('/', 'HomeController@index');
-        Route::post('/slugger/trade', 'TradeController@slugger');
-        Route::post('/slugger/coin', 'CoinController@slugger');
-        Route::get('/trades/search', 'TradeController@search');
         Route::get('/price', 'CoinController@getCoins');
-
+        Route::post('/slugger', 'CoinController@slugger');
+        Route::post('/tradeslug', 'TradeController@slugger');
+        Route::get('/search', 'CoinController@search');
+        // Route::get('/search', 'TradeController@search');
         Route::resource('/trades', 'TradeController');
         Route::resource('/coins', 'CoinController');
     });

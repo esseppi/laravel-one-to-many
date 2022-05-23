@@ -40,13 +40,15 @@ class CoinController extends Controller
     public function store(Request $request)
     {
         $this->validationRules = [
-            'ticker'            => 'required|min:1|max:128',
-            'thumb'             => 'url|max:2000',
+            'name'              => 'required|min:3|max:128',
             'slug'              => 'required|unique:coins|max:250',
+            'image'             => 'url|max:2000',
         ];
-        // validazion
+        // validazione
         $request->validate($this->validationRules);
+        // salvataggio dati
         $newCoin = $request->all();
+        // creazione istanza
         $coin = Coin::create($newCoin);
         return redirect()->route('admin.coins.show', $coin->id);
     }
@@ -59,8 +61,10 @@ class CoinController extends Controller
      */
     public function show(Coin $coin)
     {
+        $data = Http::get('https://api.coingecko.com/api/v3/coins/' . $coin->slug)->json();;
         return view('admin.coins.show', [
             'coin'     => $coin,
+            'data'     => $data,
         ]);
     }
 
@@ -83,23 +87,14 @@ class CoinController extends Controller
      * @param  \App\Coin  $coin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coin $coin)
+    public function update(Coin $coin, Request $request)
     {
-        // $formData = Http::get('https://api.coingecko.com/api/v3/coins/')->json();;
+        $formData = $request->all();
 
-        // $coin->update($formData);
-
-        // return redirect()->route('admin.coins.show', $coin->id);
-
-        $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/')->json();
-        foreach ($Coinlist as $coin) {
-            $price = $coin['market_data']['current_price']['usd'];
-        }
+        $coin->update($formData);
 
 
-        // dd($Coinlist);
-
-        return view('admin.coins.price', ['coins' => $Coinlist]);
+        return redirect()->route('admin.coins.show', $coin->id);
     }
 
     /**
@@ -122,13 +117,20 @@ class CoinController extends Controller
         return view('admin.coins.search', compact('coins'));
     }
 
+
+
+
+    // RICEVO RICHIESTA POST DA AXIOS APP.JS E RISPONDO CON LO SLUG CON OGETTO DEL POST-AXIOS IN JSON
     // GENERATORE SLUGGER
-    // public function slugger(Request $request)
-    // {
-    //     return response()->json([
-    //         'slug' => Coin::generateSlug($request->all()['generatorString'])
-    //     ]);
-    // }
+    public function slugger(Request $request)
+    {
+        return response()->json([
+            'slug' => Coin::generateSlug($request->all()['generatorString'])
+        ]);
+    }
+
+
+    // CREAZIONE CONVERTITORE 
     public function getCoins(Coin $oldCoin)
     {
         $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins/')->json();

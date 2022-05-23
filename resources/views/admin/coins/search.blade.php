@@ -7,7 +7,7 @@
                 @foreach ($coins as $coin)
                     <div class="card-group">
                         <div class="card my-3">
-                            <img src="{{ $coin['thumb'] }}" class="card-img-top" alt="{{ $coin['name'] }}">
+                            <img src="{{ $coin['image'] }}" class="card-img-top" alt="{{ $coin['name'] }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $coin['name'] }}</h5>
                                 <p class="card-text">{{ $coin['price'] }}</p>

@@ -40130,7 +40130,8 @@ Vue.component("example-component", __webpack_require__(/*! ./components/ExampleC
 
 var app = new Vue({
   el: "#app"
-});
+}); // FORM DI ELIMINAZIONE
+
 var button = document.querySelectorAll(".deleteButton");
 var form = document.querySelector("#deleteForm");
 button.forEach(function (button) {
@@ -40138,18 +40139,78 @@ button.forEach(function (button) {
     form.action = this.dataset.base + "/" + this.dataset.id;
   });
   console.log(form.action);
-}); // GENERATORE SLUGGER
+}); // GENERATORE SLUGGER COIN
 
 var btnSlugger = document.querySelector("#btn-slugger");
 
 if (btnSlugger) {
   btnSlugger.addEventListener("click", function () {
     var eleSlug = document.querySelector("#slug");
-    var name = document.querySelector("#name").value;
+    var eleImage = document.querySelector("#image");
+    var eleDescription = document.querySelector("#description");
+    var name = document.querySelector("#name").value.toLowerCase();
+    console.log("https://api.coingecko.com/api/v3/coins/${name}");
     Axios.post("/admin/slugger", {
       generatorString: name
     }).then(function (response) {
       eleSlug.value = response.data.slug;
+    });
+    Axios.get("https://api.coingecko.com/api/v3/coins/".concat(name)).then(function (response) {
+      eleImage.value = response.data["image"]["large"];
+      eleDescription.value = response.data["description"]["en"];
+    });
+  });
+} // logged user
+
+
+var userId = document.querySelector("#userId").innerHTML; // data del trade
+
+var date = document.getElementById("date"); // info di rates
+
+var baseUsd = document.querySelector("#baseCoinUsd"); //cambio coin 1 vs usd
+
+var foreignUsd = document.querySelector("#foreignCoinUsd"); //cambio coin 2 vs usd
+
+var exRate = document.querySelector("#tradePrice"); //coin1 / coin2
+// GENERATORE INFORMAZIONI PAGINA TRADE
+
+var btnGenerator = document.querySelector("#btnGenerator");
+
+if (btnGenerator) {
+  btnGenerator.addEventListener("click", function () {
+    // nomi coin to exchange
+    var coinBase = document.querySelector("#coin1").value.toLowerCase();
+    var coinForeign = document.querySelector("#coin2").value.toLowerCase(); // GENERAZIONE SLUG
+
+    var eleSlugTrade = document.querySelector("#slugRes");
+    var tradeDir = document.querySelector("#tradeDir").value;
+    var name = coinBase + tradeDir + coinForeign + userId;
+    Axios.post("/admin/slugger", {
+      generatorString: name
+    }).then(function (response) {
+      eleSlugTrade.value = response.data.slug;
+    }); // INSERIMENTO PREZZI IN BASE ALLA DATA
+
+    var input = date.value;
+    input = date.value.split("-");
+    var day = input[2];
+    var month = input[1];
+    var year = input[0]; // axios calls
+
+    var reqOne = Axios.get("https://api.coingecko.com/api/v3/coins/".concat(coinBase, "/history?date=").concat(day, "-").concat(month, "-").concat(year));
+    var reqTwo = Axios.get("https://api.coingecko.com/api/v3/coins/".concat(coinForeign, "/history?date=").concat(day, "-").concat(month, "-").concat(year)); // AXIOS RATE CALLS
+
+    Axios.all([reqOne, reqTwo]).then(Axios.spread(function () {
+      for (var _len = arguments.length, responses = new Array(_len), _key = 0; _key < _len; _key++) {
+        responses[_key] = arguments[_key];
+      }
+
+      exRate.value = responses[0].data.market_data.current_price.usd / responses[1].data.market_data.current_price.usd;
+      baseUsd.value = responses[0].data.market_data.current_price.usd;
+      foreignUsd.value = responses[1].data.market_data.current_price.usd;
+      console.log(baseUsd);
+      console.log(foreignUsd);
+    }))["catch"](function (errors) {// react on errors.
     });
   });
 }

@@ -15,7 +15,7 @@ class Coin extends Model
     protected $fillable = [
         "id",
         "name",
-        "price_usd",
+        "description",
         "image",
         "slug",
     ];
@@ -32,18 +32,14 @@ class Coin extends Model
         }
         return $slug;
     }
-    public function getCoins(Request $request)
+    public function getCoins()
     {
         $Coinlist = Http::get('https://api.coingecko.com/api/v3/coins')->json();
-        // foreach ($Coinlist as $coin) {
-        //     dd($coin);
-        // }
-
-
-        // dd($Coinlist);
 
         return view('admin.coins.price', ['coins' => $Coinlist]);
     }
+
+    // GIVE FOREIGN KEY
     public function tradeCoin()
     {
         return $this->hasMany('App\Trade', 'coin_id');

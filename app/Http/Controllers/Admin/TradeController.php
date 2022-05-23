@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Trade;
-use App\User;
+use Illuminate\Support\Facades\Auth;
+
+use App\Coin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -25,9 +27,10 @@ class TradeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Coin $coin)
     {
-        return view('admin.trades.create');
+        $coins = Coin::all();
+        return view('admin.trades.create', compact('coins'));
     }
 
     /**
@@ -36,22 +39,37 @@ class TradeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Request $request)
     {
+
+        // dd($request);
         $this->validationRules = [
-            'name'              => 'required|min:1|max:128',
-            'thumb'             => 'url|max:2000',
-            'description'       => 'max:250',
-            'slug'              => 'required|unique:trades|max:250',
-            'price'             => 'required|numeric',
-            'amount'            => 'required|numeric',
+            // 'user_id'              => 'required|min:1|max:200',
+            'baseCoin_id'          => 'required|min:1|max:200',
+            'foreignCoin_id'       => 'required|min:1|max:200',
+            'slug'                 => 'required|unique:trades|max:250',
+
+            'basePrice'            => 'numeric|max:200000000',
+            'foreignPrice'         => 'numeric|max:200000000',
+            'date'                 => 'date',
+            'tradeDir'             => 'required|boolean',
         ];
-        // validazion
+        // validazione
         $request->validate($this->validationRules);
-        $newTrade = $request->all();
+
+        $newTrade = $request->all() + [
+            'user_id' => Auth::user()->id,
+            'basePrice' => 1000,
+            'foreignPrice' => 1000,
+            'comments' => 'ciao',
+        ];
+
         $trade = Trade::create($newTrade);
         return redirect()->route('admin.trades.show', $trade->id);
     }
+
 
     /**
      * Display the specified resource.

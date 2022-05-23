@@ -27,7 +27,7 @@ class CreateTradesTable extends Migration
             $table->float('foreignAmount');
             $table->date('date');
             $table->boolean('tradeDir');
-            $table->text('comments');
+            $table->text('comments')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('baseCoin_id')->references('id')->on('coins');

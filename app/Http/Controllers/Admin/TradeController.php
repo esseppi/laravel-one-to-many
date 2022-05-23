@@ -61,9 +61,6 @@ class TradeController extends Controller
 
         $newTrade = $request->all() + [
             'user_id' => Auth::user()->id,
-            'basePrice' => 1000,
-            'foreignPrice' => 1000,
-            'comments' => 'ciao',
         ];
 
         $trade = Trade::create($newTrade);

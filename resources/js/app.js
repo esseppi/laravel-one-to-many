@@ -75,6 +75,7 @@ const userId = document.querySelector("#userId").innerHTML;
 
 // data del trade
 const date = document.getElementById("date");
+const foreignAmount = document.getElementById("foreignAmount");
 
 // info di rates
 const baseUsd = document.querySelector("#baseCoinUsd"); //cambio coin 1 vs usd
@@ -86,17 +87,19 @@ const btnGenerator = document.querySelector("#btnGenerator");
 if (btnGenerator) {
     btnGenerator.addEventListener("click", function () {
         // nomi coin to exchange
-        var coinBase = document.querySelector("#coin1").value.toLowerCase();
-        var coinForeign = document.querySelector("#coin2").value.toLowerCase();
+        var data1 = document.querySelector("#coin1");
+        var option = data1.options[data1.selectedIndex];
+        var coinBase = option.getAttribute("data-name").toLowerCase();
+        var data2 = document.querySelector("#coin2");
+        var option = data2.options[data2.selectedIndex];
+        var coinForeign = option.getAttribute("data-name").toLowerCase();
         // GENERAZIONE SLUG
         const eleSlugTrade = document.querySelector("#slugRes");
         const tradeDir = document.querySelector("#tradeDir").value;
         const name = coinBase + tradeDir + coinForeign + userId;
-        Axios.post("/admin/slugger", {
-            generatorString: name,
-        }).then(function (response) {
-            eleSlugTrade.value = response.data.slug;
-        });
+        const baseAmount = parseFloat(
+            document.getElementById("baseAmount").value
+        );
 
         // INSERIMENTO PREZZI IN BASE ALLA DATA
         var input = date.value;
@@ -112,19 +115,29 @@ if (btnGenerator) {
         const reqTwo = Axios.get(
             `https://api.coingecko.com/api/v3/coins/${coinForeign}/history?date=${day}-${month}-${year}`
         );
+        const reqThree = Axios.post("/admin/slugger", {
+            generatorString: name,
+        });
         // AXIOS RATE CALLS
-        Axios.all([reqOne, reqTwo])
+        Axios.all([reqOne, reqTwo, reqThree])
             .then(
                 Axios.spread((...responses) => {
+                    // PREZZO DI CAMBIO TRA DUE ASSET
                     exRate.value =
                         responses[0].data.market_data.current_price.usd /
                         responses[1].data.market_data.current_price.usd;
+                    foreignAmount.value =
+                        (responses[0].data.market_data.current_price.usd /
+                            responses[1].data.market_data.current_price.usd) *
+                        baseAmount;
+                    // BASE ASSET VALUE
                     baseUsd.value =
                         responses[0].data.market_data.current_price.usd;
+                    // FOREIGN ASSET VALUE
                     foreignUsd.value =
                         responses[1].data.market_data.current_price.usd;
-                    console.log(baseUsd);
-                    console.log(foreignUsd);
+                    // GENERATORE SLUG
+                    eleSlugTrade.value = responses[2].data.slug;
                 })
             )
             .catch((errors) => {

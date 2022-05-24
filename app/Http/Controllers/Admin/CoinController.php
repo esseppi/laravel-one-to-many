@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Coin;
+use App\Rules\Uppercase;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -39,13 +40,18 @@ class CoinController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validationRules = [
-            'name'              => 'required|min:3|max:128',
-            'slug'              => 'required|unique:coins|max:250',
-            'image'             => 'url|max:2000',
-        ];
+        // $this->validationRules = [
+        //     'name'              => 'required|min:3|new Uppercase|max:128',
+        // ];
+        $request->validate([
+            'name'              => ['required', 'string', new Uppercase],
+            'slug'              => ['required', 'unique:coins', 'max:250'],
+            'image'             => ['url', 'max:2000'],
+
+
+        ]);
         // validazione
-        $request->validate($this->validationRules);
+        // $request->validate($this->validationRules);
         // salvataggio dati
         $newCoin = $request->all();
         // creazione istanza

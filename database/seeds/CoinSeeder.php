@@ -35,7 +35,6 @@ class CoinSeeder extends Seeder
         //     ]);
         // };
 
-        $link = 'https://api.coingecko.com/api/v3/coins/';
         // $total = Http::get($link)->json();
 
         // for ($i = 0; $i < count($total); $i++) {
@@ -50,13 +49,14 @@ class CoinSeeder extends Seeder
 
 
         // SELEZIONA LE COINS INIZIAL SPECIFICANDO IL NOME NELL'ARRAY initialCoins
+        $link = 'https://api.coingecko.com/api/v3/coins/';
         $initialCoins = ['bitcoin', 'ethereum', 'polkadot',];
         for ($i = 0; $i < count($initialCoins); $i++) {
-            $word = $initialCoins[$i];
+            $word = strtolower($initialCoins[$i]);
             $coin = Http::get($link . $word)->json();
             Coin::create([
                 "description" => $coin['description']['en'],
-                "name"        => $coin['name'],
+                "name"        => strtoupper($coin['name']),
                 "image"       => $coin['image']['large'],
                 "slug"        => Coin::generateSlug($coin['name'])
             ]);

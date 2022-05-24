@@ -28,6 +28,7 @@ Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
         Route::get('/', 'HomeController@index');
+        Route::get('/trades/myTrades', 'TradeController@myTrades')->name('trades.myTrades');
         Route::get('/price', 'CoinController@getCoins');
         Route::post('/slugger', 'CoinController@slugger');
         Route::post('/tradeslug', 'TradeController@slugger');

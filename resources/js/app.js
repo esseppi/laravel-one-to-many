@@ -70,16 +70,13 @@ if (btnSlugger) {
     });
 }
 
-// logged user
-const userId = document.querySelector("#userId").innerHTML;
-
 // data del trade
 const date = document.getElementById("date");
 const foreignAmount = document.getElementById("foreignAmount");
 
 // info di rates
-const baseUsd = document.querySelector("#baseCoinUsd"); //cambio coin 1 vs usd
-const foreignUsd = document.querySelector("#foreignCoinUsd"); //cambio coin 2 vs usd
+const baseUsd = document.querySelector("#basePrice"); //cambio coin 1 vs usd
+const foreignUsd = document.querySelector("#foreignPrice"); //cambio coin 2 vs usd
 const exRate = document.querySelector("#tradePrice"); //coin1 / coin2
 
 // GENERATORE INFORMAZIONI PAGINA TRADE
@@ -96,7 +93,7 @@ if (btnGenerator) {
         // GENERAZIONE SLUG
         const eleSlugTrade = document.querySelector("#slugRes");
         const tradeDir = document.querySelector("#tradeDir").value;
-        const name = coinBase + tradeDir + coinForeign + userId;
+        const name = coinBase + tradeDir + coinForeign;
         const baseAmount = parseFloat(
             document.getElementById("baseAmount").value
         );
@@ -115,7 +112,7 @@ if (btnGenerator) {
         const reqTwo = Axios.get(
             `https://api.coingecko.com/api/v3/coins/${coinForeign}/history?date=${day}-${month}-${year}`
         );
-        const reqThree = Axios.post("/admin/slugger", {
+        const reqThree = Axios.post("/admin/tradeslug", {
             generatorString: name,
         });
         // AXIOS RATE CALLS

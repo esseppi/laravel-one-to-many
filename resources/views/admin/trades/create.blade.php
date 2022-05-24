@@ -48,18 +48,19 @@
                 {{-- COIN BASE VS USD --}}
                 <div class="col-6">
                     <label for="address2" class="form-label">COIN 1 VS USD</label>
-                    <input disabled="disabled" class="form-control" id="baseCoinUsd" name="basePrice"
-                        value="{{ old('baseCoinUsd') }}" placeholder="Price of base coin in selected date">
+                    <input class="form-control" id="basePrice" name="basePrice" value="{{ old('basePrice') }}"
+                        placeholder="Price of base coin in selected date">
                 </div>
                 {{-- COIN FOREIGN VS USD --}}
                 <div class="col-6">
                     <label for="address2" class="form-label">COIN 2 VS USD</label>
-                    <input disabled="disabled" class="form-control" id="foreignCoinUsd" name="foreignPrice"
-                        value="{{ old('foreignCoinUsd') }}" placeholder="Price of foreign coin in selected date">
+                    <input class="form-control" id="foreignPrice" name="foreignPrice" value="{{ old('foreignPrice') }}"
+                        placeholder="Price of foreign coin in selected date">
                 </div>
                 {{-- RATE COIN 2 / COIN 1 --}}
                 <div class="col-12">
-                    <label for="address2" class="form-label">Exchange Rate</label>
+                    <label for="address2" class="form-label">Exchange Rate <span class="text-muted">(Automatic / to
+                            modify manually, press generator and than modify)</label>
                     <input class="form-control" id="tradePrice" name="price" value="{{ old('price') }}"
                         placeholder="Price">
                 </div>
@@ -77,12 +78,16 @@
                     <input class="form-control" id="baseAmount" name="baseAmount" value="{{ old('baseAmount') }}"
                         placeholder="Amount you trade">
                 </div>
-
                 <div class="col-6">
                     <label for="address2" class="form-label">Amount you will get</label>
-                    <input disabled="disabled" id="foreignAmount" name="foreignAmount" value="{{ old('foreignAmount') }}"
+                    <input id="foreignAmount" name="foreignAmount" value="{{ old('foreignAmount') }}"
                         placeholder="Amount you will get">
                 </div>
+                {{-- COMMENTO --}}
+                <div class="col-sm-12">
+                    <textarea id="comments" name="comments" cols="60" rows="5" placeholder="Leave a comment"></textarea>
+                </div>
+                {{-- GENERATORE DATI --}}
                 <div class="col-sm-12">
                     <label for="slug" class="form-label">Slug</label>
                     <input type="text" id="slugRes" name="slug">

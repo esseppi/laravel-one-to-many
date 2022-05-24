@@ -40160,17 +40160,15 @@ if (btnSlugger) {
       eleDescription.value = response.data["description"]["en"];
     });
   });
-} // logged user
+} // data del trade
 
-
-var userId = document.querySelector("#userId").innerHTML; // data del trade
 
 var date = document.getElementById("date");
 var foreignAmount = document.getElementById("foreignAmount"); // info di rates
 
-var baseUsd = document.querySelector("#baseCoinUsd"); //cambio coin 1 vs usd
+var baseUsd = document.querySelector("#basePrice"); //cambio coin 1 vs usd
 
-var foreignUsd = document.querySelector("#foreignCoinUsd"); //cambio coin 2 vs usd
+var foreignUsd = document.querySelector("#foreignPrice"); //cambio coin 2 vs usd
 
 var exRate = document.querySelector("#tradePrice"); //coin1 / coin2
 // GENERATORE INFORMAZIONI PAGINA TRADE
@@ -40189,7 +40187,7 @@ if (btnGenerator) {
 
     var eleSlugTrade = document.querySelector("#slugRes");
     var tradeDir = document.querySelector("#tradeDir").value;
-    var name = coinBase + tradeDir + coinForeign + userId;
+    var name = coinBase + tradeDir + coinForeign;
     var baseAmount = parseFloat(document.getElementById("baseAmount").value); // INSERIMENTO PREZZI IN BASE ALLA DATA
 
     var input = date.value;
@@ -40200,7 +40198,7 @@ if (btnGenerator) {
 
     var reqOne = Axios.get("https://api.coingecko.com/api/v3/coins/".concat(coinBase, "/history?date=").concat(day, "-").concat(month, "-").concat(year));
     var reqTwo = Axios.get("https://api.coingecko.com/api/v3/coins/".concat(coinForeign, "/history?date=").concat(day, "-").concat(month, "-").concat(year));
-    var reqThree = Axios.post("/admin/slugger", {
+    var reqThree = Axios.post("/admin/tradeslug", {
       generatorString: name
     }); // AXIOS RATE CALLS
 
